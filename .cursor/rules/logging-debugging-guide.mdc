@@ -1,3 +1,8 @@
+---
+description: logging and debugging
+globs: 
+alwaysApply: false
+---
 # Logging and Debugging Guide
 
 Motia provides a comprehensive logging and debugging system to help monitor and troubleshoot your workflows. The logging system works across different runtime environments and languages.

@@ -1,3 +1,8 @@
+---
+description: testing and design for flows, topic naming, and multi-flow steps
+globs: 
+alwaysApply: false
+---
 # Flow Design Guide
 
 Flows in Motia organize steps into logical, understandable workflows. They provide structure, visualization, and context for your event-driven applications.

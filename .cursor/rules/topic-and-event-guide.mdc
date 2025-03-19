@@ -1,3 +1,8 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
 # Topic and Event Guide
 
 Events and Topics are the core communication mechanism in Motia. They enable steps to interact with each other in a loosely coupled, asynchronous manner.

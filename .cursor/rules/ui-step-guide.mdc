@@ -1,3 +1,8 @@
+---
+description: UI display for user
+globs: 
+alwaysApply: false
+---
 # UI Step Implementation Guide
 
 UI Steps allow you to create custom visual representations of your workflow steps in Motia Workbench. This enhances understanding and clarity of your workflows by providing tailored, context-aware visualizations.

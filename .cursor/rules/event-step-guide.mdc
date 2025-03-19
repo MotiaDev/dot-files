@@ -1,3 +1,8 @@
+---
+description: 
+globs: steps/**/*.ts
+alwaysApply: false
+---
 # Event Step Implementation Guide
 
 Event Steps are the most common step type in Motia. They react to subscribed events, process data, and emit new events.

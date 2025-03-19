@@ -1,3 +1,8 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
 # Motia Framework Overview
 
 Motia is a code-first framework designed to empower developers to build robust, scalable, and observable event-driven workflows. It supports JavaScript/TypeScript, Python, and Ruby.

@@ -1,3 +1,8 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
 # Project Structure Guide
 
 This guide outlines the recommended project structure for Motia applications to promote organization, maintainability, and scalability.

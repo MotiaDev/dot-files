@@ -1,3 +1,8 @@
+---
+description: Cron timer for scheduled jobs
+globs: 
+alwaysApply: false
+---
 # Cron Step Implementation Guide
 
 Cron Steps allow you to schedule tasks to run at specified intervals using cron expressions. They're perfect for recurring tasks like data synchronization, report generation, or cleanup operations.

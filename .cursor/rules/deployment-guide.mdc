@@ -1,3 +1,8 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
 # Deployment Guide
 
 This guide covers the best practices for preparing and deploying Motia applications to various environments.
