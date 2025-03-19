@@ -1,3 +1,8 @@
+---
+description: integration with external services, user interaction, cli, chat, system tools or other systems
+globs: 
+alwaysApply: false
+---
 # Integration Patterns Guide
 
 This guide covers common integration patterns for connecting Motia workflows with external systems, APIs, and services.

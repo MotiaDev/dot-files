@@ -1,3 +1,8 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
 # Common Pitfalls and How to Avoid Them
 
 This guide highlights common mistakes when working with Motia and provides solutions to avoid them.

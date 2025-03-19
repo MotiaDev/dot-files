@@ -1,3 +1,8 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
 # Step Implementation Guide
 
 ## Step Configuration Properties

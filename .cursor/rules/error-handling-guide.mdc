@@ -1,3 +1,8 @@
+---
+description: Error handling, error types, retry strategies, alerting, dead letter queues
+globs: 
+alwaysApply: false
+---
 # Error Handling Guide
 
 Effective error handling is crucial for building robust Motia workflows. This guide covers best practices for handling errors within your steps and flows.

@@ -1,3 +1,8 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
 # Motia Framework Guide for Cursor Agent
 
 This guide is specifically for the Cursor Agent to help users implement workflows, steps, and flows correctly using the Motia framework.

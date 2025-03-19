@@ -1,3 +1,8 @@
+---
+description: 
+globs: steps/**/*.ts
+alwaysApply: false
+---
 # NOOP Step Implementation Guide
 
 NOOP (No Operation) Steps are special steps used to:

@@ -1,3 +1,8 @@
+---
+description: test utilities and how to test each step and flow
+globs: 
+alwaysApply: false
+---
 # Testing Guide
 
 This guide covers the best practices for testing Motia workflows, steps, and event handling logic.

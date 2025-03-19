@@ -1,3 +1,8 @@
+---
+description: API step http handler
+globs: 
+alwaysApply: false
+---
 # API Step Implementation Guide
 
 API Steps expose HTTP endpoints that act as entry points into your Motia workflow. They allow external systems to trigger events within your application.
