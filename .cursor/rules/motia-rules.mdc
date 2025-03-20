@@ -9,7 +9,7 @@ alwaysApply: true
 
 - Use `export const config` to define the configuration object for steps
 - Use one of `'event'`, `'api'`, or `'cron'` as step types in the config
-- Always provide a unique `name` field in the step config
+- Always provide a unique `name` field in the step config it can be simple strings or objects with `{ topic: 'event-name', label: 'Human readable description' }`
 - Use `subscribes` array to define which events the step listens to
 - Use `emits` array to define which events the step can emit
 - Use `flows` array to group steps into logical workflows
