@@ -1,0 +1,98 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Motia Framework Architecture
+
+Motia is a code-first framework for building event-driven workflows with zero infrastructure setup. The framework supports multiple languages (TypeScript, JavaScript, Python, Ruby) and provides built-in observability.
+
+## Core Components
+
+1. Steps: Fundamental building blocks that contain isolated business logic
+   - Event Steps: React to and emit events
+   - API Steps: HTTP endpoints as workflow entry points
+   - Cron Steps: Time-based workflow triggers
+   - UI Steps: Visual components in the Workbench
+   - NOOP Steps: Testing and development placeholders
+
+2. Flows: Logical groupings of related steps
+3. Events: Messages passed between steps
+4. Topics: Named channels for event routing
+
+## Project Structure
+```typescript
+my-motia-project/
+├── steps/
+│   ├── event-steps/
+│   ├── api-steps/
+│   └── cron-steps/
+├── flows/
+└── motia.config.js
+```
+
+## Step Creation Guidelines
+
+1. Each step requires:
+   - config object: Defines step properties
+   - handler function: Contains business logic
+
+2. Basic step configuration:
+```typescript
+export const config = {
+  type: 'event|api|cron',
+  name: 'unique-step-name',
+  subscribes: ['topic1', 'topic2'],
+  emits: ['output-topic'],
+  flows: ['flow-name']
+}
+
+export const handler = async (input, context) => {
+  // Business logic here
+}
+```
+
+## Flows Guide
+
+Flows organize steps into logical workflows and manage their interactions.
+
+### Flow Definition
+```typescript
+type Flow = {
+  name: string;
+  description?: string;
+  steps: string[];
+  errorHandler?: string;
+}
+```
+
+### Flow Patterns
+
+#### Linear Flow
+```typescript
+// Step A -> Step B -> Step C
+const steps = [
+  {
+    name: 'stepA',
+    emits: ['flow.stepB']
+  },
+  {
+    name: 'stepB',
+    subscribes: ['flow.stepB'],
+    emits: ['flow.stepC']
+  },
+  {
+    name: 'stepC',
+    subscribes: ['flow.stepC']
+  }
+];
+```
+
+## Related Documentation Files
+- steps.mdc: Detailed step types and configuration
+- api_steps.mdc: API endpoint creation and middleware
+- event_steps.mdc: Event handling and emission
+- cron_steps.mdc: Scheduled task configuration
+- ui_steps.mdc: Workbench visualization components
+- state-management.mdc: State management
+- testing.mdc: Unit Tests

@@ -1,0 +1,40 @@
+---
+description: Motia workbench node UI
+globs: 
+alwaysApply: false
+---
+# UI Steps Guide
+
+UI Steps provide custom visualizations in the Motia Workbench.
+
+## Configuration
+```typescript
+type UiConfig = {
+  type: 'ui';
+  name: string;
+  component: string; // React component name
+  props?: Record<string, any>;
+}
+```
+
+## Component Examples
+
+### Data Display
+```typescript
+// Custom visualization component
+export const DataVisualization = ({ data }) => {
+  return (
+    <div className="data-viz">
+      <h3>{data.title}</h3>
+      <pre>{JSON.stringify(data.content, null, 2)}</pre>
+    </div>
+  );
+};
+
+// Step configuration
+export const config = {
+  type: 'ui',
+  name: 'data-display',
+  component: 'DataVisualization'
+};
+```

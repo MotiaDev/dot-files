@@ -1,0 +1,50 @@
+---
+description: Motia Cron Steps
+globs: 
+alwaysApply: false
+---
+# Cron Steps Guide
+
+Cron Steps enable scheduled task execution using cron expressions.
+
+## Configuration
+```typescript
+type CronConfig = {
+  type: 'cron';
+  name: string;
+  schedule: string; // Cron expression
+  timezone?: string;
+  emits: string[];
+}
+```
+
+## Schedule Patterns
+
+### Common Schedules
+```typescript
+// Every 5 minutes
+export const config = {
+  type: 'cron',
+  schedule: '*/5 * * * *',
+  // ...
+};
+
+// Daily at midnight
+export const config = {
+  type: 'cron',
+  schedule: '0 0 * * *',
+  timezone: 'UTC',
+  // ...
+};
+```
+
+### State Management
+```typescript
+export const handler = async (_, { state }) => {
+  // Get last run timestamp
+  const lastRun = await state.get('lastRunTime');
+  
+  // Update state
+  await state.set('lastRunTime', new Date().toISOString());
+};
+```

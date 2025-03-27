@@ -1,0 +1,60 @@
+---
+description: Motia steps and core concepts
+globs: 
+alwaysApply: false
+---
+# Motia Steps Reference
+
+Steps are self-contained units of business logic that process events and emit results.
+
+## Common Configuration
+```typescript
+type StepConfig = {
+  type: 'event' | 'api' | 'cron';
+  name: string;
+  description?: string;
+  subscribes?: string[];
+  emits?: string[];
+  flows: string[];
+}
+```
+
+## Handler Context
+```typescript
+type Context = {
+  emit: (event: { topic: string, data: any }) => Promise<void>;
+  traceId: string;
+  state: StateManager;
+  logger: Logger;
+}
+```
+
+## Best Practices
+1. Keep steps atomic and focused
+2. Use meaningful topic names
+3. Handle errors gracefully
+4. Log important operations
+5. Maintain state carefully
+
+## Common Patterns
+```typescript
+// Input validation
+import { z } from 'zod';
+
+const inputSchema = z.object({
+  message: z.string()
+});
+
+export const config = {
+  type: 'event',
+  name: 'validate-input',
+  input: inputSchema,
+  // ...
+};
+
+// State management
+export const handler = async (input, { state }) => {
+  const currentCount = await state.get('counter') || 0;
+  await state.set('counter', currentCount + 1);
+};
+```

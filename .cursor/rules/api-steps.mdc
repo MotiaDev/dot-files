@@ -1,0 +1,54 @@
+---
+description: Motia API Steps
+globs: 
+alwaysApply: false
+---
+# API Steps Guide
+
+API Steps expose HTTP endpoints for external interaction with workflows.
+
+## Basic Configuration
+```typescript
+type ApiConfig = {
+  type: 'api';
+  name: string;
+  path: string;
+  method: 'GET' | 'POST';
+  bodySchema?: any;
+  middleware?: ApiMiddleware[];
+}
+```
+
+## Middleware Pattern
+```typescript
+type ApiMiddleware = (
+  req: Request,
+  ctx: Context,
+  next: () => Promise<Response>
+) => Promise<Response>;
+
+// Authentication middleware example
+const authMiddleware: ApiMiddleware = async (req, ctx, next) => {
+  const token = req.headers.authorization;
+  if (!validateToken(token)) {
+    return {
+      status: 401,
+      body: { error: 'Unauthorized' }
+    };
+  }
+  return next();
+};
+```
+
+## Response Handling
+```typescript
+export const handler = async (req, ctx) => {
+  return {
+    status: 200,
+    body: { message: 'Success' },
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+};
+```

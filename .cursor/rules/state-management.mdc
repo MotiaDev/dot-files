@@ -1,0 +1,97 @@
+---
+description: State management between steps
+globs: 
+alwaysApply: false
+---
+# Motia State Management
+
+## Core Concepts
+
+State management in Motia provides:
+- Zero-config in-memory storage
+- Flexible storage adapters (Memory, File, Redis)
+- Automatic state cleanup with TTL
+- Flow-level isolation using traceId
+
+## Basic Usage
+
+```typescript
+export const handler = async (input, { state, traceId }) => {
+  // Store data
+  await state.set(traceId, 'user', { name: 'Alice' });
+  
+  // Retrieve data
+  const user = await state.get(traceId, 'user');
+  
+  // Delete specific data
+  await state.delete(traceId, 'user');
+  
+  // Clear all flow state
+  await state.clear(traceId);
+};
+```
+
+## State Methods
+
+| Method  | Usage                                    |
+|---------|------------------------------------------|
+| get     | `state.get(traceId, key)`               |
+| set     | `state.set(traceId, key, value)`        |
+| delete  | `state.delete(traceId, key)`            |
+| clear   | `state.clear(traceId)`                  |
+
+## Storage Adapters
+
+### Memory (Default)
+```yaml
+state:
+  adapter: memory
+```
+
+### File
+```yaml
+state:
+  adapter: file
+  path: '.motia/state.json'
+```
+
+### Redis
+```yaml
+state:
+  adapter: redis
+  host: localhost
+  port: 6379
+  ttl: 3600  # Optional: 1 hour TTL
+```
+
+## Best Practices
+
+1. Type Safety
+```typescript
+interface UserState {
+  name: string;
+  email: string;
+}
+
+const user = await state.get<UserState>(traceId, 'user');
+```
+
+2. Hierarchical Keys
+```typescript
+// Good
+await state.set(traceId, 'booking.customer', data);
+await state.set(traceId, 'booking.venue', venue);
+
+// Avoid
+await state.set(traceId, 'customerData', data);
+await state.set(traceId, 'venueData', venue);
+```
+
+3. Cleanup
+```typescript
+try {
+  await processData();
+} finally {
+  await state.clear(traceId);
+}
+```

@@ -1,0 +1,46 @@
+---
+description: Motia Event Steps
+globs: 
+alwaysApply: false
+---
+# Event Steps Guide
+
+Event Steps handle asynchronous message processing and event emission.
+
+## Configuration
+```typescript
+type EventConfig = {
+  type: 'event';
+  name: string;
+  subscribes: string[];
+  emits: string[];
+  input?: any; // Schema for TypeScript/JavaScript
+}
+```
+
+## Event Patterns
+
+### Sequential Processing
+```typescript
+export const handler = async (input, { emit }) => {
+  // Process input
+  const result = await processData(input);
+  
+  // Emit to next step
+  await emit({
+    topic: 'processing.complete',
+    data: result
+  });
+};
+```
+
+### Parallel Processing
+```typescript
+export const handler = async (input, { emit }) => {
+  // Emit multiple events
+  await Promise.all([
+    emit({ topic: 'branch1', data: input }),
+    emit({ topic: 'branch2', data: input })
+  ]);
+};
+```
