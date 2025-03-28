@@ -7,18 +7,18 @@ alwaysApply: false
 
 ## Setup
 ```bash
-pnpm add -D @motiadev/testing jest @types/jest
+pnpm add -D @motiadev/test jest @types/jest
 ```
 
 ## Core Testing Patterns
 
 ### 1. Event Steps
 ```typescript
-import { createTestContext } from '@motiadev/testing';
+import { createMockContext } from '@motiadev/test';
 
 describe('ProcessDataStep', () => {
   it('processes data correctly', async () => {
-    const { emit, state } = createTestContext();
+    const { emit, state } = createMockContext();
     
     await handler({ message: 'test' }, { emit, state });
     
@@ -34,7 +34,7 @@ describe('ProcessDataStep', () => {
 ```typescript
 describe('APIEndpoint', () => {
   it('handles requests', async () => {
-    const { emit } = createTestContext();
+    const { emit } = createMockContext();
     const req = {
       method: 'POST',
       body: { data: 'test' }
@@ -44,17 +44,6 @@ describe('APIEndpoint', () => {
     expect(res.status).toBe(200);
   });
 });
-```
-
-### 3. Flow Testing
-```typescript
-import { createTestFlow } from '@motiadev/testing';
-
-const flow = createTestFlow('my-flow')
-  .step('step1', step1Handler)
-  .step('step2', step2Handler);
-
-const result = await flow.execute({ input: 'test' });
 ```
 
 ## Best Practices
@@ -69,14 +58,14 @@ const result = await flow.execute({ input: 'test' });
 ```typescript
 // Error handling
 it('handles errors', async () => {
-  const { emit, logger } = createTestContext();
+  const { emit, logger } = createMockContext();
   await handler(null, { emit, logger });
   expect(logger.error).toHaveBeenCalled();
 });
 
 // State management
 it('manages state', async () => {
-  const { state } = createTestContext();
+  const { state } = createMockContext();
   await state.set('key', 'value');
   expect(await state.get('key')).toBe('value');
 });
