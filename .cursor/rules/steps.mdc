@@ -9,24 +9,115 @@ Steps are self-contained units of business logic that process events and emit re
 
 ## Common Configuration
 ```typescript
-type StepConfig = {
-  type: 'event' | 'api' | 'cron';
-  name: string;
-  description?: string;
-  subscribes?: string[];
-  emits?: string[];
-  flows: string[];
-}
-```
-
-## Handler Context
-```typescript
-type Context = {
-  emit: (event: { topic: string, data: any }) => Promise<void>;
-  traceId: string;
-  state: StateManager;
-  logger: Logger;
-}
+type FlowContext = {
+    emit: Emitter;
+    traceId: string;
+    state: InternalStateManager;
+    logger: Logger;
+};
+type Emit = string | {
+    topic: string;
+    label?: string;
+    conditional?: boolean;
+};
+type EventConfig<TInput extends ZodObject<any> = any> = {
+    type: 'event';
+    name: string;
+    description?: string;
+    subscribes: string[];
+    emits: Emit[];
+    virtualEmits?: Emit[];
+    input: TInput;
+    flows?: string[];
+    /**
+     * Files to include in the step bundle.
+     * Needs to be relative to the step file.
+     */
+    includeFiles?: string[];
+};
+type NoopConfig = {
+    type: 'noop';
+    name: string;
+    description?: string;
+    virtualEmits: Emit[];
+    virtualSubscribes: string[];
+    flows?: string[];
+};
+type ApiRouteMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' | 'OPTIONS' | 'HEAD';
+type ApiMiddleware = (req: ApiRequest, ctx: FlowContext, next: () => Promise<ApiResponse>) => Promise<ApiResponse>;
+type ApiRouteConfig = {
+    type: 'api';
+    name: string;
+    description?: string;
+    path: string;
+    method: ApiRouteMethod;
+    emits: Emit[];
+    virtualEmits?: Emit[];
+    virtualSubscribes?: string[];
+    flows?: string[];
+    middleware?: ApiMiddleware[];
+    bodySchema?: ZodObject<any>;
+    /**
+     * Files to include in the step bundle.
+     * Needs to be relative to the step file.
+     */
+    includeFiles?: string[];
+};
+type ApiRequest = {
+    pathParams: Record<string, string>;
+    queryParams: Record<string, string | string[]>;
+    body: Record<string, any>;
+    headers: Record<string, string | string[]>;
+    files?: Express.Multer.File[] | {
+        [fieldname: string]: Express.Multer.File[];
+    };
+};
+type ApiResponse = {
+    status: number;
+    headers?: Record<string, string>;
+    body: string | Buffer | Record<string, any>;
+};
+type ApiRouteHandler = (req: ApiRequest, ctx: FlowContext) => Promise<ApiResponse>;
+type CronConfig = {
+    type: 'cron';
+    name: string;
+    description?: string;
+    cron: string;
+    virtualEmits?: Emit[];
+    emits: Emit[];
+    flows?: string[];
+    /**
+     * Files to include in the step bundle.
+     * Needs to be relative to the step file.
+     */
+    includeFiles?: string[];
+};
+type CronHandler = (ctx: FlowContext) => Promise<void>;
+type StepHandler<T> = T extends EventConfig<any> ? EventHandler<T['input']> : T extends ApiRouteConfig ? ApiRouteHandler : T extends CronConfig ? CronHandler : never;
+type Event<TData = unknown> = {
+    topic: string;
+    data: TData;
+    traceId: string;
+    flows?: string[];
+    logger: BaseLogger;
+};
+type Handler<TData = unknown> = (event: Event<TData>) => Promise<void>;
+type SubscribeConfig<TData> = {
+    event: string;
+    handlerName: string;
+    filePath: string;
+    handler: Handler<TData>;
+};
+type UnsubscribeConfig = {
+    filePath: string;
+    event: string;
+};
+type StepConfig = EventConfig<ZodObject<any>> | NoopConfig | ApiRouteConfig | CronConfig;
+type Step<TConfig extends StepConfig = StepConfig> = {
+    filePath: string;
+    version: string;
+    config: TConfig;
+};
 ```
 
 ## Best Practices
@@ -46,7 +137,7 @@ const inputSchema = z.object({
   message: z.string()
 });
 
-export const config = {
+export const config: EventConfig<typeof inputSchema> = {
   type: 'event',
   name: 'validate-input',
   input: inputSchema,
@@ -54,7 +145,7 @@ export const config = {
 };
 
 // State management
-export const handler = async (input, { state }) => {
+export const handler: StepHandler<typeof config> = async (input, { state }: FlowContext) => {
   const currentCount = await state.get('counter') || 0;
   await state.set('counter', currentCount + 1);
 };

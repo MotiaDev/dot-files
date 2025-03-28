@@ -16,7 +16,7 @@ State management in Motia provides:
 ## Basic Usage
 
 ```typescript
-export const handler = async (input, { state, traceId }) => {
+export const handler = async (input, { state, traceId }: FlowContext) => {
   // Store data
   await state.set(traceId, 'user', { name: 'Alice' });
   

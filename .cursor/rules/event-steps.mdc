@@ -24,7 +24,7 @@ export const config: EventConfig = {
 
 ### Sequential Processing
 ```typescript
-export const handler = async (input, { emit }) => {
+export const handler: StepHandler<typeof config> = async (input, { emit }: FlowContext) => {
   // Process input
   const result = await processData(input);
   
@@ -38,7 +38,7 @@ export const handler = async (input, { emit }) => {
 
 ### Parallel Processing
 ```typescript
-export const handler = async (input, { emit }) => {
+export const handler: StepHandler<typeof config> = async (input, { emit }) => {
   // Emit multiple events
   await Promise.all([
     emit({ topic: 'branch1', data: input }),
