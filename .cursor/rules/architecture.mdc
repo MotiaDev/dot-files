@@ -54,6 +54,8 @@ export const handler: StepHandler<typeof config> = async (input, context: FlowCo
 ```
 
 ## General Guidelines
+- Always follow functional programming best practices
+- Avoid using `any`, use proper Typescript and prioritize using types from `@motiadev/core/dist/src/types.d.ts`
 - Make sure all steps belong to the same flow
 - Make sure the first step is an API step to only trigger the flow, all time-consuming tasks should belong to Event Steps to be processed in the background
 - Steps need to have a `.step` suffix, for instance, for TS would be `my-step.step.ts`
@@ -65,6 +67,7 @@ export const handler: StepHandler<typeof config> = async (input, context: FlowCo
 
 
 ## Related Documentation Files
+- types.mdc: Motia Types
 - steps.mdc: Detailed step types and configuration
 - api_steps.mdc: API endpoint creation and middleware
 - event_steps.mdc: Event handling and emission
