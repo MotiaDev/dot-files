@@ -1,5 +1,5 @@
 ---
-description: Motia Event Steps
+description: What are Motia Event Steps and an example of usage
 globs: 
 alwaysApply: false
 ---
@@ -9,12 +9,14 @@ Event Steps handle asynchronous message processing and event emission.
 
 ## Configuration
 ```typescript
-type EventConfig = {
-  type: 'event';
-  name: string;
-  subscribes: string[];
-  emits: string[];
-  input?: any; // Schema for TypeScript/JavaScript
+export const config: EventConfig = {
+  type: 'event',
+  name: 'my-event-step',
+  subscribes: ['previous-step']
+  emits: ['step-finished'],
+  input: z.object({
+    (...)
+  }),
 }
 ```
 

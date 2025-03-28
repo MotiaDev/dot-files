@@ -7,14 +7,14 @@ alwaysApply: false
 
 ## Setup
 ```bash
-pnpm add -D @motiadev/test jest @types/jest
+pnpm add -D @motiadev/testing jest @types/jest
 ```
 
 ## Core Testing Patterns
 
 ### 1. Event Steps
 ```typescript
-import { createTestContext } from '@motiadev/test';
+import { createTestContext } from '@motiadev/testing';
 
 describe('ProcessDataStep', () => {
   it('processes data correctly', async () => {
@@ -48,7 +48,7 @@ describe('APIEndpoint', () => {
 
 ### 3. Flow Testing
 ```typescript
-import { createTestFlow } from '@motiadev/test';
+import { createTestFlow } from '@motiadev/testing';
 
 const flow = createTestFlow('my-flow')
   .step('step1', step1Handler)

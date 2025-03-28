@@ -1,5 +1,5 @@
 ---
-description: Motia Cron Steps
+description: What are Motia Cron Steps and an example of usage
 globs: 
 alwaysApply: false
 ---
@@ -9,12 +9,12 @@ Cron Steps enable scheduled task execution using cron expressions.
 
 ## Configuration
 ```typescript
-type CronConfig = {
-  type: 'cron';
-  name: string;
-  schedule: string; // Cron expression
-  timezone?: string;
-  emits: string[];
+export const config: CronConfig = {
+  type: 'cron',
+  name: 'my-cron-step',
+  schedule: '*/5 * * * *',
+  timezone: 'UTC',
+  emits: ['step-finished'],
 }
 ```
 

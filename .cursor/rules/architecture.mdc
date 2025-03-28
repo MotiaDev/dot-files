@@ -27,8 +27,9 @@ my-motia-project/
 │   ├── event-steps/
 │   ├── api-steps/
 │   └── cron-steps/
-├── flows/
-└── motia.config.js
+├── services/
+├── middlewares/
+├── utils/
 ```
 
 ## Step Creation Guidelines
@@ -52,41 +53,16 @@ export const handler = async (input, context) => {
 }
 ```
 
-## Flows Guide
+## General Guidelines
+- Make sure all steps belong to the same flow
+- Make sure the first step is an API step to only trigger the flow, all time-consuming tasks should belong to Event Steps to be processed in the background
+- Steps need to have a `.step` suffix, for instance, for TS would be `my-step.step.ts`
+- Make sure all step configurations have a `subscribe` and `emits` configurations so that they are all tied properly to a flow
+- Always add tests to test steps in isolation, also add a flow test that tests the whole workflow
+- Prioritize encapsulating business logic on services
+- Try to put a single service per file, for instance, the file `getUsers.ts` exports a function `getUsers`
+- Always check your code, make sure it builds (`npx motia build`) and runs properly (`npx motia dev`)
 
-Flows organize steps into logical workflows and manage their interactions.
-
-### Flow Definition
-```typescript
-type Flow = {
-  name: string;
-  description?: string;
-  steps: string[];
-  errorHandler?: string;
-}
-```
-
-### Flow Patterns
-
-#### Linear Flow
-```typescript
-// Step A -> Step B -> Step C
-const steps = [
-  {
-    name: 'stepA',
-    emits: ['flow.stepB']
-  },
-  {
-    name: 'stepB',
-    subscribes: ['flow.stepB'],
-    emits: ['flow.stepC']
-  },
-  {
-    name: 'stepC',
-    subscribes: ['flow.stepC']
-  }
-];
-```
 
 ## Related Documentation Files
 - steps.mdc: Detailed step types and configuration

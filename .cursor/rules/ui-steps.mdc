@@ -1,5 +1,5 @@
 ---
-description: Motia workbench node UI
+description: UI Steps provide a powerful way to create custom, visually appealing representations of your workflow steps in the Workbench
 globs: 
 alwaysApply: false
 ---
@@ -7,34 +7,23 @@ alwaysApply: false
 
 UI Steps provide custom visualizations in the Motia Workbench.
 
-## Configuration
-```typescript
-type UiConfig = {
-  type: 'ui';
-  name: string;
-  component: string; // React component name
-  props?: Record<string, any>;
-}
-```
+## Example
 
-## Component Examples
-
-### Data Display
 ```typescript
-// Custom visualization component
-export const DataVisualization = ({ data }) => {
+import React from 'react'
+import { EventNode } from 'motia/workbench'
+import type { EventNodeProps } from 'motia/workbench'
+ 
+export default function CustomStep({ data }: EventNodeProps) {
   return (
-    <div className="data-viz">
-      <h3>{data.title}</h3>
-      <pre>{JSON.stringify(data.content, null, 2)}</pre>
-    </div>
-  );
-};
-
-// Step configuration
-export const config = {
-  type: 'ui',
-  name: 'data-display',
-  component: 'DataVisualization'
-};
+    <EventNode
+      data={data}
+      variant="white"
+      shape="rounded"
+      className="py-2 px-4"
+    >
+      <div>Custom content</div>
+    </EventNode>
+  )
+}
 ```

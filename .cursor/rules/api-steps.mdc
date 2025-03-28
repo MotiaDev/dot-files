@@ -1,5 +1,5 @@
 ---
-description: Motia API Steps
+description: What are Motia API Steps and an example of usage
 globs: 
 alwaysApply: false
 ---
@@ -9,34 +9,16 @@ API Steps expose HTTP endpoints for external interaction with workflows.
 
 ## Basic Configuration
 ```typescript
-type ApiConfig = {
-  type: 'api';
-  name: string;
-  path: string;
-  method: 'GET' | 'POST';
-  bodySchema?: any;
-  middleware?: ApiMiddleware[];
-}
-```
-
-## Middleware Pattern
-```typescript
-type ApiMiddleware = (
-  req: Request,
-  ctx: Context,
-  next: () => Promise<Response>
-) => Promise<Response>;
-
-// Authentication middleware example
-const authMiddleware: ApiMiddleware = async (req, ctx, next) => {
-  const token = req.headers.authorization;
-  if (!validateToken(token)) {
-    return {
-      status: 401,
-      body: { error: 'Unauthorized' }
-    };
-  }
-  return next();
+export const config: ApiRouteConfig = {
+  type: 'api',
+  name: 'my-api-step',
+  path: '/api/path',
+  method: 'POST',
+  flows: ['default'],
+  emits: ['step-finished'],
+  bodySchema: z.object({
+    (...)
+  }),
 };
 ```
 

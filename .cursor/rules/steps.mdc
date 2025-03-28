@@ -1,5 +1,5 @@
 ---
-description: Motia steps and core concepts
+description: What are motia steps and core concepts
 globs: 
 alwaysApply: false
 ---
@@ -35,6 +35,7 @@ type Context = {
 3. Handle errors gracefully
 4. Log important operations
 5. Maintain state carefully
+6. Only small data should be emitted
 
 ## Common Patterns
 ```typescript

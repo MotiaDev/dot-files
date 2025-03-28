@@ -42,6 +42,14 @@ export const handler = async (input, { state, traceId }) => {
 
 ## Storage Adapters
 
+To configure a different state adapter, modify the config.yml file in your project root:
+
+my-motia-project/
+├── config.yml
+└── steps/
+    ├── step-1.ts
+    └── step-2.ts
+
 ### Memory (Default)
 ```yaml
 state:
@@ -61,6 +69,7 @@ state:
   adapter: redis
   host: localhost
   port: 6379
+  password: optional
   ttl: 3600  # Optional: 1 hour TTL
 ```
 
