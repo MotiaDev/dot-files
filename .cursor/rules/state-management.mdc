@@ -31,6 +31,47 @@ export const handler = async (input, { state, traceId }: FlowContext) => {
 };
 ```
 
+```python
+async def handler(input, ctx): # ctx is the context object
+    trace_id = ctx.trace_id # Access traceId from context
+ 
+    # Store state (using traceId as scope)
+    await ctx.state.set(trace_id, 'booking', { 
+        'customer': input.customer,
+        'venue': input.venue
+    })
+ 
+    # Retrieve state (using traceId as scope)
+    booking = await ctx.state.get(trace_id, 'booking') 
+ 
+    # Delete specific state (using traceId as scope)
+    await ctx.state.delete(trace_id, 'booking') 
+ 
+    # Clear all state (using traceId as scope)
+    await ctx.state.clear(trace_id) 
+```
+
+```ruby
+  def handler(input, context) # context is the context object
+  trace_id = context.trace_id # Access traceId from context
+ 
+  # Store state (using traceId as scope)
+  context.state.set(trace_id, 'booking', { 
+    customer: input.customer,
+    venue: input.venue
+  })
+ 
+  # Retrieve state (using traceId as scope)
+  booking = context.state.get(trace_id, 'booking') 
+ 
+  # Delete specific state
+  context.state.delete(trace_id, 'booking') 
+ 
+  # Clear all state (using traceId as scope)
+  context.state.clear(trace_id) 
+end
+```
+
 ## State Methods
 
 | Method  | Usage                                    |
@@ -77,12 +118,46 @@ state:
 
 1. Type Safety
 ```typescript
-interface UserState {
+interface CustomerData {
   name: string;
   email: string;
 }
+ 
+interface VenueData {
+  id: string;
+  capacity: number;
+}
+ 
+type BookingState = {
+  customer: CustomerData;
+  venue: VenueData;
+  status: 'pending' | 'confirmed';
+}
+ 
+const booking = await state.get<BookingState>(traceId, 'booking')
+```
 
-const user = await state.get<UserState>(traceId, 'user');
+```python
+from dataclasses import dataclass
+from typing import Literal
+ 
+@dataclass
+class CustomerData:
+    name: str
+    email: str
+ 
+@dataclass
+class VenueData:
+    id: str
+    capacity: int
+ 
+@dataclass
+class BookingState:
+    customer: CustomerData
+    venue: VenueData
+    status: Literal['pending', 'confirmed']
+ 
+booking = await state.get(traceId, 'booking')
 ```
 
 2. Hierarchical Keys
@@ -104,3 +179,20 @@ try {
   await state.clear(traceId);
 }
 ```
+
+```python
+async def handler(input, ctx):
+    trace_id = ctx.trace_id
+    try:
+        await process_booking(input)
+        # Clean up specific keys
+        await ctx.state.delete(trace_id, 'booking.customer')
+        # Or clean everything
+        await ctx.state.clear(trace_id)
+    except Exception as error:
+        # Handle errors
+        pass
+```
+
+## Additional Docs
+State Management: https://motia.dev/docs/concepts/state-management

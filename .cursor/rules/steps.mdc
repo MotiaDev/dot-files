@@ -15,6 +15,8 @@ Steps are self-contained units of business logic that process events and emit re
 5. Maintain state carefully
 6. Only small data should be emitted
 
+
+
 ## Common Patterns
 ```typescript
 // Input validation
@@ -26,9 +28,10 @@ const inputSchema = z.object({
 
 export const config: EventConfig<typeof inputSchema> = {
   type: 'event',
-  name: 'validate-input',
+  name: 'Minimal Step',
   input: inputSchema,
-  // ...
+  subscribes: ['start'],
+  emits: ['done'],
 };
 
 // State management
@@ -37,3 +40,31 @@ export const handler: StepHandler<typeof config> = async (input, { state }: Flow
   await state.set('counter', currentCount + 1);
 };
 ```
+
+```python
+config = {
+    'type': 'event',
+    'name': 'Minimal Step',
+    'subscribes': ['start'],
+    'emits': ['done'],
+}
+ 
+async def handler(args, ctx):
+  await ctx.emit({'topic': 'done', 'data': {}})
+```
+
+```ruby
+def config
+  {
+    type: 'event',
+    name: 'Minimal Step',
+    subscribes: ['start'],
+    emits: ['done'],
+  }
+end
+ 
+def handler(args, ctx)
+  ctx.emit({topic: 'done', data: {}})
+end
+```
+
