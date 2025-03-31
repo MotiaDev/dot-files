@@ -67,11 +67,11 @@ export const handler: StepHandler<typeof config> = async (input, context: FlowCo
 
 
 ## Related Documentation Files
-- types.mdc: Motia Types
+- typescript.mdc: Motia Types
 - steps.mdc: Detailed step types and configuration
-- api_steps.mdc: API endpoint creation and middleware
-- event_steps.mdc: Event handling and emission
-- cron_steps.mdc: Scheduled task configuration
-- ui_steps.mdc: Workbench visualization components
+- api-steps.mdc: API endpoint creation and middleware
+- event-steps.mdc: Event handling and emission
+- cron-steps.mdc: Scheduled task configuration
+- ui-steps.mdc: Workbench visualization components
 - state-management.mdc: State management
 - testing.mdc: Unit Tests
