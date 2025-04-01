@@ -12,7 +12,16 @@ This repository provides:
 
 ## Contents
 
-- `.cursor/rules/motia-rules.mdc`: Cursor AI rules for working with Motia framework components
+- `.cursor/rules/`: Cursor AI rules for working with Motia framework components:
+  - `api-steps.mdc`: API endpoint creation and configuration
+  - `architecture.mdc`: Overall Motia framework architecture
+  - `cron-steps.mdc`: Scheduled task configuration
+  - `event-steps.mdc`: Event handling and emission
+  - `state-management.mdc`: Managing state between steps
+  - `steps.mdc`: Core concepts and step creation
+  - `testing.mdc`: Unit and flow testing guidelines
+  - `typescript.mdc`: TypeScript types for Motia
+  - `ui-steps.mdc`: Workbench visualization components
 - `CLAUDE.md`: Comprehensive guide for Claude AI to generate Motia workflows
 
 ## Getting Started
@@ -34,8 +43,9 @@ cp -r .cursor your-motia-project/
 - **Motia Rules**: Guidelines for Cursor AI to understand Motia framework concepts including:
   - Core components (steps, flows, events)
   - Step types (API, Event, Cron, NOOP)
+  - State management between steps
   - UI components and styling
-  - Best practices and testing workflows
+  - Testing workflows and best practices
 
 - **Claude AI Guide**: Comprehensive documentation on how to use Claude for generating Motia workflows with:
   - Step templates for TypeScript, JavaScript, Python, and Ruby
