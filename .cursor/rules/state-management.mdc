@@ -33,41 +33,41 @@ export const handler = async (input, { state, traceId }: FlowContext) => {
 
 ```python
 async def handler(input, ctx): # ctx is the context object
-    trace_id = ctx.trace_id # Access traceId from context
+    trace_id = ctx.trace_id # Access trace_id from context
  
-    # Store state (using traceId as scope)
+    # Store state (using trace_id as scope)
     await ctx.state.set(trace_id, 'booking', { 
         'customer': input.customer,
         'venue': input.venue
     })
  
-    # Retrieve state (using traceId as scope)
+    # Retrieve state (using trace_id as scope)
     booking = await ctx.state.get(trace_id, 'booking') 
  
-    # Delete specific state (using traceId as scope)
+    # Delete specific state (using trace_id as scope)
     await ctx.state.delete(trace_id, 'booking') 
  
-    # Clear all state (using traceId as scope)
+    # Clear all state (using trace_id as scope)
     await ctx.state.clear(trace_id) 
 ```
 
 ```ruby
-  def handler(input, context) # context is the context object
-  trace_id = context.trace_id # Access traceId from context
+def handler(input, context) # context is the context object
+  trace_id = context.trace_id # Access trace_id from context
  
-  # Store state (using traceId as scope)
+  # Store state (using trace_id as scope)
   context.state.set(trace_id, 'booking', { 
     customer: input.customer,
     venue: input.venue
   })
  
-  # Retrieve state (using traceId as scope)
+  # Retrieve state (using trace_id as scope)
   booking = context.state.get(trace_id, 'booking') 
  
   # Delete specific state
   context.state.delete(trace_id, 'booking') 
  
-  # Clear all state (using traceId as scope)
+  # Clear all state (using trace_id as scope)
   context.state.clear(trace_id) 
 end
 ```
